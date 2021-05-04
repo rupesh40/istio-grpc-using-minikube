@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-service
+spec:
+  selector:
+    app: grpc-depl  
+  type: NodePort  
+  ports:
+    - protocol: TCP
+      port: 80
+      name: grpc-port
+      targetPort: 9000
+      nodePort: 30900
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-depl
+spec:
+  selector:
+    matchLabels:
+      app: grpc-depl
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: grpc-depl
+    spec:
+      containers:
+      - name: grpc
+        image: rupesh40/istio-grpc-new:v3
+        ports:
+        - containerPort: 9000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: grpc-gateway
+spec:
+  selector:
+    istio: ingressgateway 
+  servers:
+  - port:
+      number: 80
+      name: grpc
+      protocol: GRPC
+    hosts:
+    - "127.0.0.1"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: vs
+spec:
+  hosts:
+  - "127.0.0.1"
+  gateways:
+  - grpc-gateway
+  http:
+  - match:
+    - port: 80
+    route:
+    - destination:
+        host: grpc-service
+        port:
+          number: 80
