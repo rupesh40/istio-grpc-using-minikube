@@ -8,6 +8,7 @@ for this example I have used following versions
  docker desktop version 3.3.2 engine version v20.10.5
  istio version 1.9.4
  
+ you will need go-compiler installed on your machine to run this example
 
 # setup : 
  I have  used minikube on windows using wsl2 and docker-desktop if you have windows 10 then follow following steps 
