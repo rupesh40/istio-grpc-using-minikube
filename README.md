@@ -52,7 +52,7 @@ step 7:
   "kubectl apply -f istio-yaml/grpc.yaml"
   
 step 8:
- now run the command  "minikube tunnel" in the different terminal and keep the process running on that wsl terminal.
+ Now run the command  "minikube tunnel" in the different terminal and keep the process running on that wsl terminal.
  
 step 9 :
  Now you have succesfully setup the istio.
