@@ -60,4 +60,3 @@ step 9 :
 
 After executing all above commands successfully, we have finally setup the istio on local machine and executed gRPC example on it.
 
-note : If you encounter any error then feel free to mail me on "rupeshspund@gmail.com"
