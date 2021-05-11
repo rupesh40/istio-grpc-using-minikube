@@ -1,7 +1,7 @@
 # istio-grpc-minikube (Golang)
 
 This is simple implementation of GRPC with Istio.
-In this example I have used minikube as local cluster , docker to containerized the application and Istio Servish mesh as Gateway and Load-balancer.
+In this example I have used minikube as local cluster , docker to containerized the application and Istio Service mesh as Gateway and Load-balancer.
 
 for this example I have used following versions
  minikube version: v1.19.0
