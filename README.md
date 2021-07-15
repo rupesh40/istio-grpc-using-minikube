@@ -51,6 +51,8 @@ step 7:
  Now execute following command to create deployments,services,pods,gateways (to execute following command you must be inside istio folder with wsl terminal). 
   "kubectl apply -f istio-yaml/grpc.yaml"
   
+  commands to check the status of pod: "kubectl get pods"
+  
 step 8:
  Now run the command  "minikube tunnel" in the different terminal and keep the process running on that wsl terminal.
  
