@@ -1,64 +1,115 @@
-# istio-grpc-minikube (Golang)
+# Istio gRPC with Minikube (Golang)
 
-This is a simple implementation of GRPC with Istio.
-In this example I have used minikube as local cluster , docker to containerized the application and Istio service mesh as Gateway and Load-balancer.
+This project demonstrates a simple implementation of **gRPC** with **Istio Service Mesh** on a local **Minikube** Kubernetes cluster. Applications are containerized using Docker, and Istio is used as a gateway and load balancer.
 
-for this example I have used following versions: 
+---
 
-minikube version: v1.19.0 ,
+## ✅ Prerequisites
+- **Go compiler** installed
+- **Operating System:** Windows 10 (with WSL2)
+- **Minikube version:** v1.19.0
+- **Docker Desktop version:** 3.3.2 (Engine: v20.10.5)
+- **Istio version:** 1.9.4
 
-docker desktop version 3.3.2 engine version v20.10.5 ,
+---
 
-istio version 1.9.4
- 
- you need to have go-compiler pre-installed on your machine to run this example.
+## 🚀 Setup Guide (10 Steps)
 
-# Setup : 
- I have used minikube on windows using wsl2 and docker-desktop if you have windows 10 then follow the following steps:
+### Step 1: Enable WSL2
+Install and enable Windows Subsystem for Linux (WSL2):  
+🔗 [WSL2 Setup Guide](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 
-step 1:
- Install and enable settings for wsl-2 : https://docs.microsoft.com/en-us/windows/wsl/install-win10.
+### Step 2: Install Docker Desktop for Windows
+- Open Docker Dashboard → Settings → Enable WSL2 integration
+- Ensure Ubuntu is selected/enabled
 
-step 2:
- Install the docker desktop for windows and  open the docker dashboard , go to the settings and enable checkbox showing wls2 and enable the ubuntu on docker.
+### Step 3: Set Up Ubuntu
+- Install Ubuntu from Microsoft Store
+- Launch Ubuntu and complete initial setup
 
-step 3:
- Install the latest version of Ubuntu from MS-store and setup your ubuntu on windows.
+### Step 4: Clone the Repository
+- Clone or download this repository
+- Navigate to the project folder in WSL terminal via VSCode or command line:
+```bash
+cd /path/to/project
+wsl
+```
 
-step 4:
- Download or fork the code , go to the file location of the code and on that location open wsl through vscode or cmd (to open wsl , you just have to type wsl on vscode terminal or cmd).
+### Step 5: Install Minikube
+Run these commands in the WSL terminal:
+```bash
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+```
+Set the driver to Docker:
+```bash
+minikube config set driver docker
+```
+Start the Kubernetes cluster:
+```bash
+minikube start --memory=4096 --cpus=4
+```
 
-step 5:
- 1. Now run the following command to download and install minikube on same wsl terminal ==>
-  
- "curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64"
- "sudo install minikube-linux-amd64 /usr/local/bin/minikube"
+### Step 6: Install Istio (Demo Profile)
+Follow steps 1–5 here:  
+🔗 [Istio Getting Started Guide](https://istio.io/latest/docs/setup/getting-started/)
 
- 2. Now run the command "minikube config set driver docker" to set driver as docker( In this example I had used docker, you can choose any of driver of your choice).
- 
- 3. Now run the command "minikube start --memory=4096 --cpus=4" to start kubernetes cluster.
+Add a namespace label for automatic Envoy sidecar injection:
+```bash
+kubectl label namespace default istio-injection=enabled
+```
 
-step 6:
- Now download the latest version of istio. Later, folder will be created on same file-directory, go in that folder and install the istio with demo profile then add a namespace   label to instruct Istio to automatically inject Envoy sidecar proxies.
+### Step 7: Copy Istio YAML Files
+- Copy the `istio-yaml/` folder from this repo into the `istio-1.9.4` directory (or your version)
 
-you can follow first 5 steps from following link to setup your istio :
-  https://istio.io/latest/docs/setup/getting-started/
+### Step 8: Deploy Application to Cluster
+Run from within the `istio-1.9.4` directory:
+```bash
+kubectl apply -f istio-yaml/grpc.yaml
+```
+Check pod status:
+```bash
+kubectl get pods
+```
 
-step 6 : 
- Now copy the folder name istio-yaml from my source code and paste inside istio-1.9.4 folder (I am using 1.9.4 version but in future your version might be different ).
+### Step 9: Start Minikube Tunnel
+Run this in a new terminal (keep it running):
+```bash
+minikube tunnel
+```
 
-step 7:
- Now execute following command to create deployments,services,pods,gateways (to execute following command you must be inside istio folder with wsl terminal). 
-  "kubectl apply -f istio-yaml/grpc.yaml"
-  
-  commands to check the status of pod: "kubectl get pods"
-  
-step 8:
- Now run the command  "minikube tunnel" in the different terminal and keep the process running on that wsl terminal.
- 
-step 9 :
- Now you have succesfully setup the istio.
- Open new terminal in client and run the command "go run client.go".
+### Step 10: Run the gRPC Client
+In a new terminal, run:
+```bash
+go run client.go
+```
 
-After executing all above commands successfully, we have finally setup the istio on local machine and executed gRPC example on it.
+---
+
+## 🎉 Result
+You’ve successfully set up **Istio Service Mesh** with **gRPC** and **Minikube** on your local Windows machine!
+
+---
+
+## 📁 Project Structure
+```
+├── client.go
+├── server.go
+├── proto/
+├── Dockerfile
+├── istio-yaml/
+└── README.md
+```
+
+---
+
+## 📌 Notes
+- Replace version numbers according to your installed versions
+- Ensure Docker and Minikube are correctly communicating
+- Minikube tunnel must remain running for the service to be accessible
+
+---
+
+## 📬 Questions?
+Feel free to open an issue or PR for improvements!
 
